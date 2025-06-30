@@ -16,6 +16,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -31,10 +32,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-            MediaQuery.of(context).size.height * 0.02,
-            MediaQuery.of(context).size.height * 0.02,
-            MediaQuery.of(context).size.height * 0.02,
-            MediaQuery.of(context).size.height * 0.02),
+           size.height * 0.02,
+           size.height * 0.02,
+           size.height * 0.02,
+           size.height * 0.02),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,7 +43,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             Image.asset('assets/phone_number_otp.png'),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
+              height: size.height * 0.05,
             ),
 
             const Text(
@@ -51,7 +52,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             ),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
+              height:  size.height * 0.01,
             ),
 
             const Text(
@@ -59,14 +60,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 style: TextStyle(fontSize: 18, color: Colors.grey)),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.06,
+              height:  size.height * 0.06,
             ),
 
             OtpTextField(
               numberOfFields: 4,
               borderColor: Colors.black,
               showFieldAsBox: true,
-              fieldWidth: MediaQuery.of(context).size.height * 0.06,
+              fieldWidth:  size.height * 0.06,
               margin: EdgeInsets.only(right: 20, left: 20),
               enabledBorderColor: Colors.grey,
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -80,7 +81,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             ),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
+              height:  size.height * 0.03,
             ),
 
             Row(
@@ -88,7 +89,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               children: [
                 canResend
                     ? SizedBox(
-                        width: MediaQuery.of(context).size.height * 0.05,
+                        width:  size.height * 0.05,
                       )
                     : SlideCountdownSeparated(
                         duration: duration,
@@ -107,7 +108,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         ),
                       ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.height * 0.2,
+                  width:  size.height * 0.2,
                 ),
                 GestureDetector(
                   onTap: () {

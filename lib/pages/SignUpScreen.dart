@@ -12,6 +12,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
       // appBar: AppBar(
@@ -20,10 +21,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // ),
       body: Padding(
           padding: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.height * 0.02,
-              MediaQuery.of(context).size.height * 0.02,
-              MediaQuery.of(context).size.height * 0.02,
-              MediaQuery.of(context).size.height * 0.02),
+              size.height * 0.02,
+              size.height * 0.02,
+              size.height * 0.02,
+              size.height * 0.02),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             // the top left button, we can also add it in the app bar as shown above.
@@ -38,20 +39,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Center(
               child: Image.asset(
                 "assets/logo.png",
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.height * 0.21,
+                height:size.height * 0.2,
+                width: size.height * 0.21,
                 opacity: const AlwaysStoppedAnimation(.3),
               ),
             ),
 
-            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            SizedBox(height: size.height * 0.01),
 
             const Text(
               "Let's Begin!",
               style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
+              height: size.height * 0.01,
             ),
             const Text(
               "Please enter your credentials to proceed",
@@ -59,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
+              height: size.height * 0.05,
             ),
 
             TextField(
@@ -73,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 )),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: size.height * 0.02,
             ),
 
             TextField(
@@ -98,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 )),
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+              height: size.height * 0.02,
             ),
 
             TextField(
@@ -111,14 +112,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderSide: BorderSide(color: Colors.grey)),
                 )),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: size.height * 0.2,
             ),
 
             Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.height * 0.065,
+                  width: size.width * 0.15,
+                  height:size.height * 0.065,
                   decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.circular(8),
