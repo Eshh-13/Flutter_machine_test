@@ -1,6 +1,13 @@
+import 'package:flutter_machine_test_demo/pages/HomeScreen.dart';
+
+import 'SignUpScreen.dart';
 import 'package:flutter/material.dart';
 import 'OtpVerificationScreen.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -10,9 +17,72 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
-  int selectedIndex = 0; // 0 = phone | 1 = email
+  int selectedIndex = 0; // 0 = email | 1 = phone
+
+  Future<void>sendOtp(email)async{
+    // String input = selectedIndex == 0 ? emailController.text : phoneController.text;
+    // String fieldKey = selectedIndex == 0 ? "email" : "phone";
+
+    if (email.isEmpty|| !email.contains('@')) {
+      print("Invalid email");
+      return;
+    }
+
+    try{
+      final response = await http.post(Uri.parse('https://mock-api.calleyacd.com/api/auth/send-otp'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'email': email}),
+      );
+
+      if(response.statusCode == 200||response.statusCode == 201){
+        print("OTP sent successfully");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OtpVerificationScreen(email: email)));
+      }
+      if(response.statusCode == 400){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("User is already verified"))
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Homescreen(),
+          ),
+        );
+      }
+      if(response.statusCode == 404){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("User not found"))
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignUpScreen(),
+          ),
+        );
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to send OTP"))
+        );
+      };
+    }catch(e){
+      print(e);
+    }
+  }
+
+  //disposing off the controllers to avoid memory leaks
+  @override
+  void dispose() {
+    emailController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,17 +132,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     indicatorSize: const Size.fromWidth(100),
                     iconAnimationType: AnimationType.onSelected,
                     styleAnimationType: AnimationType.onSelected,
-                    onChanged: (i) {
-                      setState(() {
-                        selectedIndex = i;
-                      });
-                    },
+
+                    // Since the criteria is only for email
+                    // onChanged: (i) {
+                    //   setState(() {
+                    //     selectedIndex = i;
+                    //   });
+                    // },
                     iconBuilder: (i) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 10.0),
                         child: Text(
-                          i == 0 ? "Phone" : "Email",
+                          i == 0 ? "Email" : "Phone",
                           style: TextStyle(
                             fontSize: 12,
                             color: selectedIndex == i
@@ -100,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: size.height * 0.01,
                 ),
                 const Text(
-                  "Please provide your phone number",
+                  "Please provide your credentials",
                   style: TextStyle(fontSize: 18, color: Colors.grey),
                 ),
 
@@ -109,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 Text(
-                  selectedIndex == 0 ? "Phone" : "Email",
+                  selectedIndex == 0 ? "Email" : "Phone",
                   // Display the selected option
                   style: TextStyle(fontSize: 20, color: Colors.grey),
                 ),
@@ -118,10 +190,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 //text field
                 TextField(
-                  controller: selectedIndex == 0 ? phoneController : emailController,
+                  controller: selectedIndex == 0 ? emailController : phoneController,
                     keyboardType: selectedIndex == 0 // Check the selected index
-                        ? TextInputType.number
-                        : TextInputType.emailAddress,
+                        ? TextInputType.emailAddress
+                        : TextInputType.phone,
                     decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey)),
@@ -136,10 +208,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: size.height * 0.07,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OtpVerificationScreen()));
+                        String email = emailController.text.trim();
+                        sendOtp(email);
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
@@ -163,3 +234,4 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
   }
 }
+

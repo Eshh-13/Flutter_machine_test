@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_machine_test_demo/pages/HomeScreen.dart';
 import 'package:flutter_machine_test_demo/pages/LogInScreen.dart';
 import 'package:flutter_machine_test_demo/pages/OtpVerificationScreen.dart';
 import 'package:flutter_machine_test_demo/pages/SignUpScreen.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:  LoginScreen(),
+      home:  Homescreen(),
       debugShowCheckedModeBanner: false,
 
     );
